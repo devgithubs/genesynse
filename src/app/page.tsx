@@ -1,33 +1,55 @@
 'use client';
+
 import { useState } from 'react';
 import Chat from '@/components/Chat';
-
+import { QRCodeCanvas } from 'qrcode.react';
 
 export default function Home() {
   const [name, setName] = useState('');
-  const [started, setStarted] = useState(false);
+  const [nameSubmitted, setNameSubmitted] = useState(false);
 
-  const handleStart = () => {
-    if (name.trim()) setStarted(true);
+  const handleSubmitName = () => {
+    if (name.trim()) {
+      setNameSubmitted(true);
+    }
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-      {!started ? (
-        <div className="text-center space-y-4">
-          <h1 className="text-2xl font-bold">Welcome to Genesynse</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen p-4">
+      <h1 className="text-2xl font-semibold mb-4">Welcome to Genesynse</h1>
+
+      {!nameSubmitted ? (
+        <div className="space-y-4 flex flex-col items-center">
           <input
-            placeholder="Enter your name"
-            className="border px-3 py-2 rounded"
+            type="text"
+            placeholder="Enter your name to begin..."
+            className="border p-2 rounded w-64"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSubmitName()}
           />
-          <br />
-          <button onClick={handleStart} className="bg-green-600 text-white px-4 py-2 rounded">Start Chat</button>
+
+          <button
+            onClick={handleSubmitName}
+            className="bg-blue-600 text-white px-4 py-2 rounded w-64"
+          >
+            Start Chatting
+          </button>
         </div>
       ) : (
         <Chat userName={name} />
       )}
+
+      <div className="mt-10 flex flex-col items-center">
+        <QRCodeCanvas value="https://genesynse.vercel.app/" size={128} />
+        <p className="mt-2 text-sm text-gray-500 text-center">
+          Scan to open on mobile
+        </p>
+      </div>
+
+      <footer className="mt-10 text-center text-sm text-gray-500">
+        Made by Arthur for Antonio @ Genesys
+      </footer>
     </main>
   );
 }

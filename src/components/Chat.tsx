@@ -11,17 +11,25 @@ export default function Chat({ userName }: { userName: string }) {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+
     const userMsg = { from: 'user', text: input };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setLoading(true);
 
-    await supabase.from('messages').insert([{ from_user: true, message: input, user_name: userName }]);
+    // Save user message to Supabase
+    await supabase.from('messages').insert([
+      { from_user: true, message: input, user_name: userName }
+    ]);
 
-    const botReply = await getBotReply(input);
+    // Personalised GPT reply using name
+    const botReply = await getBotReply(input, userName || 'there');
     const botMsg = { from: 'bot', text: botReply };
 
-    await supabase.from('messages').insert([{ from_user: false, message: botReply, user_name: userName }]);
+    // Save bot reply to Supabase
+    await supabase.from('messages').insert([
+      { from_user: false, message: botReply, user_name: userName }
+    ]);
 
     setMessages(prev => [...prev, botMsg]);
     setLoading(false);
@@ -48,9 +56,17 @@ export default function Chat({ userName }: { userName: string }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
         />
-        <button onClick={sendMessage} className="bg-blue-600 text-white px-4 py-2 rounded">Send</button>
+        <button
+          onClick={sendMessage}
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Send
+        </button>
       </div>
-      <button onClick={handleEscalate} className="mt-4 w-full bg-red-600 text-white py-2 rounded">
+      <button
+        onClick={handleEscalate}
+        className="mt-4 w-full bg-red-600 text-white py-2 rounded"
+      >
         Escalate to Agent
       </button>
     </div>
