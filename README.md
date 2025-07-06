@@ -1,6 +1,6 @@
 # Genesynse
 
-A lightweight AI-powered customer support demo built with Next.js, Supabase, and OpenAI.
+A lightweight AI-powered customer support demo built with Next.js, Vercel, Supabase, and OpenAI.
 
 ## Features
 
