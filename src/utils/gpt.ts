@@ -1,4 +1,3 @@
-// utils/gpt.ts
 export async function getBotReply(message: string): Promise<string> {
   const res = await fetch('/api/chat', {
     method: 'POST',
@@ -11,9 +10,9 @@ export async function getBotReply(message: string): Promise<string> {
   const data = await res.json();
 
   if (data.error) {
-    console.error("API Route Error:", data.error);
-    return "Sorry, something went wrong.";
+    console.error('OpenAI Error:', data.error);
+    return 'Something went wrong with the AI response.';
   }
 
-  return data.reply;
+  return data.reply ?? 'Sorry, I didn’t understand that.';
 }
