@@ -5,7 +5,6 @@ A lightweight AI-powered customer support demo built with Next.js, Vercel, Supab
 ## Features
 
 - AI chatbot powered by OpenAI GPT
-- Name-based personalization
 - Message logging via Supabase
 - Optional escalation to human agent
 - Mobile-friendly with QR code access
