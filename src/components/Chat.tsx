@@ -17,16 +17,16 @@ export default function Chat({ userName }: { userName: string }) {
     setInput('');
     setLoading(true);
 
-    // Save user message to Supabase
+    // Log user message to Supabase
     await supabase.from('messages').insert([
       { from_user: true, message: input, user_name: userName }
     ]);
 
-    // Personalised GPT reply using name
-    const botReply = await getBotReply(input, userName || 'there');
+    // Get reply from OpenAI (no userName passed)
+    const botReply = await getBotReply(input);
     const botMsg = { from: 'bot', text: botReply };
 
-    // Save bot reply to Supabase
+    // Log bot reply to Supabase
     await supabase.from('messages').insert([
       { from_user: false, message: botReply, user_name: userName }
     ]);
@@ -45,7 +45,9 @@ export default function Chat({ userName }: { userName: string }) {
   return (
     <div className="max-w-xl mx-auto p-4">
       <div className="h-[60vh] overflow-y-auto border rounded-md p-3 bg-white shadow-sm mb-4">
-        {messages.map((m, i) => <MessageBubble key={i} from={m.from} text={m.text} />)}
+        {messages.map((m, i) => (
+          <MessageBubble key={i} from={m.from} text={m.text} />
+        ))}
         {loading && <MessageBubble from="bot" text="Typing..." />}
       </div>
       <div className="flex gap-2">
@@ -56,10 +58,7 @@ export default function Chat({ userName }: { userName: string }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
         />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
+        <button onClick={sendMessage} className="bg-blue-600 text-white px-4 py-2 rounded">
           Send
         </button>
       </div>
