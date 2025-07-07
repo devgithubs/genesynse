@@ -15,8 +15,8 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-2xl font-semibold mb-4">Welcome to Genesynse</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-white text-black min-h-screen">
+      <h1 className="text-2xl font-semibold mb-4">Welcome to Genesys Assistant</h1>
 
       {!nameSubmitted ? (
         <div className="space-y-4 flex flex-col items-center">
@@ -49,6 +49,15 @@ export default function Home() {
 
       <footer className="mt-10 text-center text-sm text-gray-500">
         Made by Arthur for Antonio @ Genesys
+        <div className="mt-8 text-black">
+          <a
+            href="https://github.com/devgithubs/genesynse?tab=readme-ov-file#genesynse"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Github Repo
+          </a>
+        </div>
       </footer>
     </main>
   );
