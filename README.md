@@ -1,4 +1,4 @@
-# Genesynse
+# AI Chatbot
 
 A lightweight AI-powered customer support demo built with Next.js, Vercel, Supabase, and OpenAI.
 
